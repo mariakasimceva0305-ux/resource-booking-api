@@ -1,6 +1,6 @@
 # ЯЗИМЕП II — задание 1: сервис бронирования ресурсов
 
-[![CI](https://github.com/mariakasimceva0305-ux/resource-booking-api/actions/workflows/ci.yml/badge.svg)](https://github.com/mariakasimceva0305-ux/resource-booking-api/actions/workflows/ci.yml)
+[![CI](https://github.com/mariakasimceva0305-ux/booking-yazime/actions/workflows/ci.yml/badge.svg)](https://github.com/mariakasimceva0305-ux/booking-yazime/actions/workflows/ci.yml)
 
 *EN: REST API for booking meeting rooms and equipment — **FastAPI** (primary demo + web UI) and **ASP.NET Core** (layered architecture). JWT, SQLite, OpenAPI, roles, overlap checks, daily limits.*
 
@@ -14,7 +14,7 @@
 | Вариант по методичке | **C# / ASP.NET Core** | Слои Controller → Service → Repository, Swagger |
 | Тесты | **pytest** + **xUnit** | CI на GitHub Actions |
 
-Публичный репозиторий (**техническое имя:** `resource-booking-api`): [github.com/mariakasimceva0305-ux/resource-booking-api](https://github.com/mariakasimceva0305-ux/resource-booking-api)
+Публичный репозиторий: [github.com/mariakasimceva0305-ux/booking-yazime](https://github.com/mariakasimceva0305-ux/booking-yazime)
 
 ---
 
@@ -123,8 +123,8 @@ dotnet test
 
 ## Репозиторий на GitHub
 
-- Имя: **`resource-booking-api`** → [github.com/mariakasimceva0305-ux/resource-booking-api](https://github.com/mariakasimceva0305-ux/resource-booking-api)
-- **Description** (для поля About):  
+- Репозиторий: **[booking-yazime](https://github.com/mariakasimceva0305-ux/booking-yazime)** (при желании переименуйте в `resource-booking-api` в Settings → Repository name).
+- **Description** (About):  
   `ЯЗИМЕП II, задание 1. REST API бронирования ресурсов: FastAPI + веб-UI, вариант C#/ASP.NET Core. JWT, SQLite, OpenAPI.`
 - **Topics:** `fastapi`, `python`, `aspnet-core`, `csharp`, `rest-api`, `jwt`, `sqlite`, `swagger`, `openapi`, `booking`
 
@@ -134,8 +134,7 @@ dotnet test
 
 ```bash
 cd "c:\Users\Мария\OneDrive\Desktop\11"
-git remote add origin https://github.com/mariakasimceva0305-ux/resource-booking-api.git
-# если remote уже есть: git remote set-url origin https://github.com/mariakasimceva0305-ux/resource-booking-api.git
+git remote set-url origin https://github.com/mariakasimceva0305-ux/booking-yazime.git
 git push -u origin main
 ```
 
