@@ -1,6 +1,8 @@
 # ЯЗИМЕП II — задание 1: сервис бронирования ресурсов
 
-[![CI](https://github.com/mariakasimceva0305-ux/booking-yazime/actions/workflows/ci.yml/badge.svg)](https://github.com/mariakasimceva0305-ux/booking-yazime/actions/workflows/ci.yml)
+Репозиторий: **[resource-booking-api](https://github.com/mariakasimceva0305-ux/resource-booking-api)**.
+
+[![CI](https://github.com/mariakasimceva0305-ux/resource-booking-api/actions/workflows/ci.yml/badge.svg)](https://github.com/mariakasimceva0305-ux/resource-booking-api/actions/workflows/ci.yml)
 
 *EN: REST API for booking meeting rooms and equipment — **FastAPI** (primary demo + web UI) and **ASP.NET Core** (layered architecture). JWT, SQLite, OpenAPI, roles, overlap checks, daily limits.*
 
@@ -13,8 +15,6 @@
 | Основная демонстрация | **FastAPI** + HTML-интерфейс | Запуск без .NET: `Запуск.cmd` → сайт `http://127.0.0.1:8000/` |
 | Вариант по методичке | **C# / ASP.NET Core** | Слои Controller → Service → Repository, Swagger |
 | Тесты | **pytest** + **xUnit** | CI на GitHub Actions |
-
-Публичный репозиторий: [github.com/mariakasimceva0305-ux/booking-yazime](https://github.com/mariakasimceva0305-ux/booking-yazime)
 
 ---
 
@@ -54,7 +54,7 @@
 
 ## Запуск
 
-**Проще всего (Windows):** двойной щелчок по **`Запуск.cmd`** в корне папки `11`. Если установлен **.NET SDK**, поднимется C# API и откроется `https://localhost:7288/`. Если **.NET нет**, скрипт **сам запустит FastAPI** и откроет **визуальный сайт** **`http://127.0.0.1:8000/`**. Окно с сервером не закрывайте.
+**Проще всего (Windows):** двойной щелчок по **`Запуск.cmd`** в корне клонированного репозитория. Если установлен **.NET SDK**, поднимется C# API и откроется `https://localhost:7288/`. Если **.NET нет**, скрипт **сам запустит FastAPI** и откроет **визуальный сайт** **`http://127.0.0.1:8000/`**. Окно с сервером не закрывайте.
 
 Или вручную:
 
@@ -112,7 +112,7 @@ pytest -q
 dotnet test
 ```
 
-Проверки запускаются автоматически в **[GitHub Actions](.github/workflows/ci.yml)** при push в `main`.
+Проверки запускаются автоматически в **[GitHub Actions](https://github.com/mariakasimceva0305-ux/resource-booking-api/actions)** при push в `main`.
 
 ## Структура решения
 
@@ -123,18 +123,19 @@ dotnet test
 
 ## Репозиторий на GitHub
 
-- Репозиторий: **[booking-yazime](https://github.com/mariakasimceva0305-ux/booking-yazime)** (при желании переименуйте в `resource-booking-api` в Settings → Repository name).
-- **Description** (About):  
-  `ЯЗИМЕП II, задание 1. REST API бронирования ресурсов: FastAPI + веб-UI, вариант C#/ASP.NET Core. JWT, SQLite, OpenAPI.`
-- **Topics:** `fastapi`, `python`, `aspnet-core`, `csharp`, `rest-api`, `jwt`, `sqlite`, `swagger`, `openapi`, `booking`
+**`resource-booking-api`:** [github.com/mariakasimceva0305-ux/resource-booking-api](https://github.com/mariakasimceva0305-ux/resource-booking-api)
+
+Если репозиторий на сайте ещё с другим именем: **Settings → General → Repository name** → **`resource-booking-api`** → Rename.
+
+**About → Description:**  
+`ЯЗИМЕП II, задание 1. REST API бронирования ресурсов: FastAPI + веб-UI, вариант C#/ASP.NET Core. JWT, SQLite, OpenAPI.`  
+**Topics:** `resource-booking-api`, `fastapi`, `python`, `aspnet-core`, `csharp`, `rest-api`, `jwt`, `sqlite`, `swagger`, `openapi`, `booking`
 
 В Git **не** попадают (`.gitignore`): **`.venv`**, **`*.db`**, **`bin/obj`**, PDF методички (`*язимеп*.pdf`).
 
-Выгрузка или обновление:
-
 ```bash
-cd "c:\Users\Мария\OneDrive\Desktop\11"
-git remote set-url origin https://github.com/mariakasimceva0305-ux/booking-yazime.git
+git clone https://github.com/mariakasimceva0305-ux/resource-booking-api.git
+cd resource-booking-api
 git push -u origin main
 ```
 
