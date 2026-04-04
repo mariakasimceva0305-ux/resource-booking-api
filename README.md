@@ -1,5 +1,9 @@
 # ЯЗИМЕП II — задание 1: сервис бронирования ресурсов
 
+[![CI](https://github.com/mariakasimceva0305-ux/resource-booking-api/actions/workflows/ci.yml/badge.svg)](https://github.com/mariakasimceva0305-ux/resource-booking-api/actions/workflows/ci.yml)
+
+*EN: REST API for booking meeting rooms and equipment — **FastAPI** (primary demo + web UI) and **ASP.NET Core** (layered architecture). JWT, SQLite, OpenAPI, roles, overlap checks, daily limits.*
+
 **Учебный веб-сервис:** бронирование переговорных и оборудования через **REST API** (роли User/Admin, JWT, SQLite, проверка пересечений по времени, лимит броней в день, группы доступа к ресурсам).
 
 **Что внутри репозитория**
@@ -8,7 +12,7 @@
 |--------|------------|----------|
 | Основная демонстрация | **FastAPI** + HTML-интерфейс | Запуск без .NET: `Запуск.cmd` → сайт `http://127.0.0.1:8000/` |
 | Вариант по методичке | **C# / ASP.NET Core** | Слои Controller → Service → Repository, Swagger |
-| Документ с заданием | `язимеп 2.pdf` | Формулировка из методички |
+| Тесты | **pytest** + **xUnit** | CI на GitHub Actions |
 
 Публичный репозиторий (**техническое имя:** `resource-booking-api`): [github.com/mariakasimceva0305-ux/resource-booking-api](https://github.com/mariakasimceva0305-ux/resource-booking-api)
 
@@ -94,9 +98,21 @@ dotnet run
 
 ## Тесты
 
+**Python** (из папки `fastapi-booking`):
+
+```bash
+cd fastapi-booking
+pip install -r requirements.txt
+pytest -q
+```
+
+**.NET:**
+
 ```bash
 dotnet test
 ```
+
+Проверки запускаются автоматически в **[GitHub Actions](.github/workflows/ci.yml)** при push в `main`.
 
 ## Структура решения
 
@@ -107,12 +123,12 @@ dotnet test
 
 ## Репозиторий на GitHub
 
-- Техническое имя репозитория: **`resource-booking-api`**
-- Адрес: **[github.com/mariakasimceva0305-ux/resource-booking-api](https://github.com/mariakasimceva0305-ux/resource-booking-api)**
-- Текст для поля **Description** и теги **Topics** — в файле **`ОПИСАНИЕ_ДЛЯ_GITHUB.txt`** (скопируйте на страницу репозитория → **⚙ About**).
-- Если репозиторий ещё назывался иначе: на GitHub **Settings → General → Repository name** → введите **`resource-booking-api`** и сохраните.
+- Имя: **`resource-booking-api`** → [github.com/mariakasimceva0305-ux/resource-booking-api](https://github.com/mariakasimceva0305-ux/resource-booking-api)
+- **Description** (для поля About):  
+  `ЯЗИМЕП II, задание 1. REST API бронирования ресурсов: FastAPI + веб-UI, вариант C#/ASP.NET Core. JWT, SQLite, OpenAPI.`
+- **Topics:** `fastapi`, `python`, `aspnet-core`, `csharp`, `rest-api`, `jwt`, `sqlite`, `swagger`, `openapi`, `booking`
 
-В Git **не** попадают (`.gitignore`): **`fastapi-booking/.venv`**, **`*.db`**, **`bin/obj`**.
+В Git **не** попадают (`.gitignore`): **`.venv`**, **`*.db`**, **`bin/obj`**, PDF методички (`*язимеп*.pdf`).
 
 Выгрузка или обновление:
 
@@ -125,4 +141,4 @@ git push -u origin main
 
 Авторизация: [Personal Access Token](https://github.com/settings/tokens) или **GitHub Desktop**.
 
-Файл **`язимеп 2.pdf`**: при проблемах с размером репозитория уберите из коммита или используйте [Git LFS](https://git-lfs.com/).
+Лицензия: [MIT](LICENSE).
