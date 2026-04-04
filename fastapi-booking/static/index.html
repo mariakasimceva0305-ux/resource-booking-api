@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Бронирование ресурсов</title>
+  <style>
+    :root {
+      --bg: #0e1318;
+      --surface: #161d27;
+      --border: rgba(255,255,255,.08);
+      --text: #e8edf4;
+      --muted: #8b9cb3;
+      --accent: #3d8bfd;
+      --ok: #3ecf8e;
+      --danger: #f07178;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; font-family: "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(ellipse 100% 70% at 50% -15%, #1a3555 0%, var(--bg) 50%);
+      color: var(--text); line-height: 1.45;
+    }
+    header {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: .75rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,.2);
+    }
+    header h1 { margin: 0; font-size: 1.15rem; font-weight: 600; }
+    header nav { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+    a { color: var(--accent); }
+    main { max-width: 920px; margin: 0 auto; padding: 1.25rem; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 1.25rem; margin-bottom: 1rem;
+    }
+    h2 { margin: 0 0 .75rem; font-size: 1.05rem; }
+    label { display: block; font-size: .8rem; color: var(--muted); margin-bottom: .25rem; }
+    input, select, textarea, button {
+      font: inherit; border-radius: 10px; border: 1px solid var(--border);
+      background: rgba(0,0,0,.25); color: var(--text); padding: .55rem .7rem; width: 100%;
+    }
+    textarea { min-height: 70px; resize: vertical; }
+    button {
+      cursor: pointer; width: auto; padding: .55rem 1rem; font-weight: 600;
+      background: linear-gradient(180deg, #4a9bff, var(--accent)); border: none; color: #fff;
+    }
+    button.secondary { background: rgba(255,255,255,.08); color: var(--text); border: 1px solid var(--border); }
+    button.danger { background: linear-gradient(180deg, #ff858c, var(--danger)); }
+    .row { display: grid; gap: .75rem; margin-bottom: .75rem; }
+    @media (min-width: 560px) { .row.cols-2 { grid-template-columns: 1fr 1fr; } }
+    .tabs { display: flex; gap: .5rem; margin-bottom: 1rem; }
+    .tabs button { opacity: .6; }
+    .tabs button.active { opacity: 1; outline: 2px solid var(--accent); }
+    .hidden { display: none !important; }
+    .msg { padding: .65rem .85rem; border-radius: 10px; font-size: .9rem; margin-bottom: 1rem; }
+    .msg.err { background: rgba(240,113,120,.15); border: 1px solid rgba(240,113,120,.35); }
+    .msg.ok { background: rgba(62,207,142,.12); border: 1px solid rgba(62,207,142,.3); }
+    ul.list { list-style: none; padding: 0; margin: 0; }
+    ul.list li {
+      padding: .65rem 0; border-bottom: 1px solid var(--border);
+      display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; justify-content: space-between;
+    }
+    ul.list li:last-child { border-bottom: none; }
+    .pill { font-size: .75rem; padding: .2rem .5rem; border-radius: 999px; background: rgba(255,255,255,.08); }
+    .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: .75rem; }
+    .stat { background: rgba(0,0,0,.2); padding: .75rem; border-radius: 10px; text-align: center; }
+    .stat b { display: block; font-size: 1.35rem; color: var(--ok); }
+    small.hint { color: var(--muted); font-size: .8rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Бронирование ресурсов</h1>
+    <nav>
+      <a href="/docs" target="_blank" rel="noopener">Документация API (Swagger)</a>
+      <span id="userBar" class="hidden"><span class="pill" id="userInfo"></span>
+        <button type="button" class="secondary" id="btnLogout">Выйти</button>
+      </span>
+    </nav>
+  </header>
+  <main>
+    <div id="flash"></div>
+
+    <section id="authSection" class="card">
+      <div class="tabs">
+        <button type="button" class="active" data-tab="login">Вход</button>
+        <button type="button" data-tab="register">Регистрация</button>
+      </div>
+      <form id="formLogin" class="row">
+        <div>
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" type="email" autocomplete="username" required />
+        </div>
+        <div>
+          <label for="loginPass">Пароль</label>
+          <input id="loginPass" type="password" autocomplete="current-password" required />
+        </div>
+        <div><button type="submit">Войти</button></div>
+      </form>
+      <form id="formRegister" class="row hidden">
+        <div class="row cols-2">
+          <div>
+            <label for="regEmail">Email</label>
+            <input id="regEmail" type="email" autocomplete="username" required />
+          </div>
+          <div>
+            <label for="regPass">Пароль (от 6 символов)</label>
+            <input id="regPass" type="password" autocomplete="new-password" required minlength="6" />
+          </div>
+        </div>
+        <div>
+          <label for="regGroup">Группа доступа (необязательно)</label>
+          <input id="regGroup" type="text" placeholder="например: vip" />
+        </div>
+        <div><button type="submit">Зарегистрироваться</button></div>
+      </form>
+      <p class="hint"><small>Админ по умолчанию: <code>admin@local</code> / <code>Admin123!</code></small></p>
+    </section>
+
+    <section id="appSection" class="hidden">
+      <div class="card">
+        <h2>Ресурсы</h2>
+        <ul class="list" id="resourceList"></ul>
+      </div>
+
+      <div class="card hidden" id="adminCreateCard">
+        <h2>Создать ресурс (админ)</h2>
+        <form id="formResource">
+          <div class="row cols-2">
+            <div>
+              <label for="resName">Название</label>
+              <input id="resName" required maxlength="200" />
+            </div>
+            <div>
+              <label for="resGroup">Группа доступа к ресурсу</label>
+              <input id="resGroup" placeholder="пусто = для всех" />
+            </div>
+          </div>
+          <div class="row">
+            <label for="resDesc">Описание</label>
+            <textarea id="resDesc" maxlength="2000"></textarea>
+          </div>
+          <button type="submit">Добавить ресурс</button>
+        </form>
+      </div>
+
+      <div class="card hidden" id="adminStatsCard">
+        <h2>Статистика (админ)</h2>
+        <div class="stats" id="statsBox"></div>
+        <p style="margin-top:.75rem"><button type="button" class="secondary" id="btnRefreshStats">Обновить</button></p>
+      </div>
+
+      <div class="card">
+        <h2>Новая бронь</h2>
+        <form id="formBooking">
+          <div class="row cols-2">
+            <div>
+              <label for="bkResource">Ресурс</label>
+              <select id="bkResource" required></select>
+            </div>
+          </div>
+          <div class="row cols-2">
+            <div>
+              <label for="bkStart">Начало (ваше локальное время)</label>
+              <input id="bkStart" type="datetime-local" required />
+            </div>
+            <div>
+              <label for="bkEnd">Окончание</label>
+              <input id="bkEnd" type="datetime-local" required />
+            </div>
+          </div>
+          <button type="submit">Забронировать</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Мои бронирования</h2>
+        <p><button type="button" class="secondary" id="btnRefreshBookings">Обновить список</button></p>
+        <ul class="list" id="bookingList"></ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const LS = { token: "bs_token", email: "bs_email", role: "bs_role" };
+
+    function getToken() { return localStorage.getItem(LS.token); }
+    function setSession(t, email, role) {
+      localStorage.setItem(LS.token, t);
+      localStorage.setItem(LS.email, email);
+      localStorage.setItem(LS.role, role);
+    }
+    function clearSession() {
+      localStorage.removeItem(LS.token);
+      localStorage.removeItem(LS.email);
+      localStorage.removeItem(LS.role);
+    }
+
+    function flash(msg, ok) {
+      const el = document.getElementById("flash");
+      el.innerHTML = msg ? '<div class="msg ' + (ok ? "ok" : "err") + '">' + msg + "</div>" : "";
+    }
+
+    function parseDetail(detail) {
+      if (!detail) return "Ошибка запроса";
+      if (typeof detail === "string") return detail;
+      if (Array.isArray(detail)) return detail.map(function (x) { return x.msg || JSON.stringify(x); }).join("; ");
+      return JSON.stringify(detail);
+    }
+
+    async function api(path, opts) {
+      opts = opts || {};
+      var headers = Object.assign({ "Content-Type": "application/json" }, opts.headers || {});
+      var tok = getToken();
+      if (tok) headers["Authorization"] = "Bearer " + tok;
+      var r = await fetch(path, Object.assign({}, opts, { headers: headers }));
+      if (r.status === 204) return null;
+      var data = null;
+      try { data = await r.json(); } catch (e) { data = {}; }
+      if (!r.ok) throw new Error(parseDetail(data.detail) || r.statusText);
+      return data;
+    }
+
+    function toIsoUtcFromLocal(datetimeLocal) {
+      if (!datetimeLocal) return null;
+      var d = new Date(datetimeLocal);
+      if (isNaN(d.getTime())) return null;
+      return d.toISOString();
+    }
+
+    function showAuth(show) {
+      document.getElementById("authSection").classList.toggle("hidden", !show);
+      document.getElementById("appSection").classList.toggle("hidden", show);
+      document.getElementById("userBar").classList.toggle("hidden", show);
+    }
+
+    function updateUserBar() {
+      var email = localStorage.getItem(LS.email) || "";
+      var role = localStorage.getItem(LS.role) || "";
+      document.getElementById("userInfo").textContent = email + " · " + role;
+      var isAdmin = role === "Admin";
+      document.getElementById("adminCreateCard").classList.toggle("hidden", !isAdmin);
+      document.getElementById("adminStatsCard").classList.toggle("hidden", !isAdmin);
+    }
+
+    async function loadResources() {
+      var items = await api("/api/resources");
+      var ul = document.getElementById("resourceList");
+      var sel = document.getElementById("bkResource");
+      ul.innerHTML = "";
+      sel.innerHTML = "";
+      if (!items.length) {
+        ul.innerHTML = "<li>Нет доступных ресурсов</li>";
+        return;
+      }
+      items.forEach(function (r) {
+        var g = r.required_access_group ? " · группа: " + r.required_access_group : "";
+        ul.innerHTML += "<li><span>" + r.name + "</span><span class=\"pill\">" + (r.is_active ? "активен" : "нет") + g + "</span></li>";
+        var o = document.createElement("option");
+        o.value = r.id;
+        o.textContent = r.name;
+        sel.appendChild(o);
+      });
+    }
+
+    async function loadBookings() {
+      var items = await api("/api/bookings/mine");
+      var ul = document.getElementById("bookingList");
+      ul.innerHTML = "";
+      if (!items.length) {
+        ul.innerHTML = "<li>Бронирований пока нет</li>";
+        return;
+      }
+      items.forEach(function (b) {
+        var li = document.createElement("li");
+        var left = document.createElement("span");
+        left.innerHTML = "<strong>" + b.resource_name + "</strong><br><small class=\"hint\">" + b.start_utc + " → " + b.end_utc + " · " + b.status + "</small>";
+        li.appendChild(left);
+        if (b.status === "Active") {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "danger";
+          btn.textContent = "Отменить";
+          btn.onclick = function () { cancelBooking(b.id); };
+          li.appendChild(btn);
+        }
+        ul.appendChild(li);
+      });
+    }
+
+    async function cancelBooking(id) {
+      if (!confirm("Отменить бронь?")) return;
+      try {
+        await api("/api/bookings/" + id + "/cancel", { method: "POST" });
+        flash("Бронь отменена", true);
+        await loadBookings();
+      } catch (e) {
+        flash(e.message, false);
+      }
+    }
+
+    async function loadStats() {
+      var s = await api("/api/admin/stats");
+      var box = document.getElementById("statsBox");
+      box.innerHTML =
+        "<div class=\"stat\"><b>" + s.total_users + "</b><small>Пользователи</small></div>" +
+        "<div class=\"stat\"><b>" + s.total_resources + "</b><small>Ресурсы</small></div>" +
+        "<div class=\"stat\"><b>" + s.active_bookings + "</b><small>Активные брони</small></div>" +
+        "<div class=\"stat\"><b>" + s.bookings_today + "</b><small>Брони сегодня (UTC)</small></div>";
+    }
+
+    document.querySelectorAll(".tabs button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll(".tabs button").forEach(function (b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        var tab = btn.getAttribute("data-tab");
+        document.getElementById("formLogin").classList.toggle("hidden", tab !== "login");
+        document.getElementById("formRegister").classList.toggle("hidden", tab !== "register");
+      });
+    });
+
+    document.getElementById("formLogin").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      flash("");
+      try {
+        var res = await api("/api/auth/login", {
+          method: "POST",
+          body: JSON.stringify({
+            email: document.getElementById("loginEmail").value.trim(),
+            password: document.getElementById("loginPass").value
+          })
+        });
+        setSession(res.token, res.email, res.role);
+        showAuth(false);
+        updateUserBar();
+        await loadResources();
+        await loadBookings();
+        if (localStorage.getItem(LS.role) === "Admin") await loadStats();
+        flash("Вы вошли", true);
+      } catch (err) {
+        flash(err.message, false);
+      }
+    });
+
+    document.getElementById("formRegister").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      flash("");
+      var g = document.getElementById("regGroup").value.trim();
+      try {
+        var res = await api("/api/auth/register", {
+          method: "POST",
+          body: JSON.stringify({
+            email: document.getElementById("regEmail").value.trim(),
+            password: document.getElementById("regPass").value,
+            access_group: g || null
+          })
+        });
+        setSession(res.token, res.email, res.role);
+        showAuth(false);
+        updateUserBar();
+        await loadResources();
+        await loadBookings();
+        flash("Аккаунт создан", true);
+      } catch (err) {
+        flash(err.message, false);
+      }
+    });
+
+    document.getElementById("btnLogout").addEventListener("click", function () {
+      clearSession();
+      showAuth(true);
+      flash("Вы вышли", true);
+    });
+
+    document.getElementById("formResource").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      flash("");
+      var rg = document.getElementById("resGroup").value.trim();
+      try {
+        await api("/api/resources", {
+          method: "POST",
+          body: JSON.stringify({
+            name: document.getElementById("resName").value.trim(),
+            description: document.getElementById("resDesc").value.trim() || null,
+            required_access_group: rg || null
+          })
+        });
+        document.getElementById("formResource").reset();
+        flash("Ресурс добавлен", true);
+        await loadResources();
+      } catch (err) {
+        flash(err.message, false);
+      }
+    });
+
+    document.getElementById("formBooking").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      flash("");
+      var start = toIsoUtcFromLocal(document.getElementById("bkStart").value);
+      var end = toIsoUtcFromLocal(document.getElementById("bkEnd").value);
+      if (!start || !end) {
+        flash("Проверьте дату и время", false);
+        return;
+      }
+      try {
+        await api("/api/bookings", {
+          method: "POST",
+          body: JSON.stringify({
+            resource_id: document.getElementById("bkResource").value,
+            start_utc: start,
+            end_utc: end
+          })
+        });
+        flash("Бронь создана", true);
+        await loadBookings();
+      } catch (err) {
+        flash(err.message, false);
+      }
+    });
+
+    document.getElementById("btnRefreshBookings").addEventListener("click", async function () {
+      try {
+        await loadBookings();
+        flash("Список обновлён", true);
+      } catch (e) { flash(e.message, false); }
+    });
+
+    document.getElementById("btnRefreshStats").addEventListener("click", async function () {
+      try {
+        await loadStats();
+        flash("Статистика обновлена", true);
+      } catch (e) { flash(e.message, false); }
+    });
+
+    (function init() {
+      if (getToken()) {
+        showAuth(false);
+        updateUserBar();
+        loadResources().then(loadBookings).then(function () {
+          if (localStorage.getItem(LS.role) === "Admin") return loadStats();
+        }).catch(function (e) {
+          clearSession();
+          showAuth(true);
+          flash("Сессия устарела — войдите снова", false);
+        });
+      } else {
+        showAuth(true);
+      }
+    })();
+  </script>
+</body>
+</html>

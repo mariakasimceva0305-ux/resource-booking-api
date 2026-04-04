@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Сервис бронирования</title>
+  <style>
+    :root { --bg: #0f1419; --card: #1a2332; --accent: #3d8bfd; --text: #e7ecf3; --muted: #8b9cb3; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; font-family: "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(ellipse 120% 80% at 50% -20%, #1e3a5f 0%, var(--bg) 55%);
+      color: var(--text); display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+    }
+    .card {
+      max-width: 440px; width: 100%; background: var(--card); border-radius: 16px; padding: 1.75rem;
+      border: 1px solid rgba(255,255,255,.06); box-shadow: 0 24px 48px rgba(0,0,0,.35);
+    }
+    h1 { margin: 0 0 .5rem; font-size: 1.35rem; }
+    p { color: var(--muted); line-height: 1.5; margin: 0 0 1rem; font-size: .95rem; }
+    a.btn {
+      display: inline-block; padding: .75rem 1.25rem; background: linear-gradient(180deg, #4a9bff, var(--accent));
+      color: #fff; text-decoration: none; border-radius: 10px; font-weight: 600; margin-right: .5rem; margin-bottom: .5rem;
+    }
+    a.btn:hover { filter: brightness(1.08); }
+    code { background: rgba(0,0,0,.25); padding: .15rem .4rem; border-radius: 6px; font-size: .85rem; }
+    .box { background: rgba(0,0,0,.2); border-radius: 10px; padding: 1rem; margin-top: 1rem; font-size: .875rem; }
+    .err { color: #ff8a8a; display: none; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Сервис бронирования ресурсов</h1>
+    <p>Эта страница открывается с <strong>запущенного</strong> API. Ниже — переход в Swagger (все методы в браузере).</p>
+    <a class="btn" href="/swagger">Открыть Swagger</a>
+    <div class="box">
+      <strong>Админ (после первого запуска):</strong><br />
+      email <code>admin@local</code><br />
+      пароль <code>Admin123!</code>
+    </div>
+    <p id="offline" class="err">Сервер не отвечает. Запустите API: двойной щелчок по <code>Запуск.cmd</code> в папке проекта или команду <code>dotnet run</code> в <code>src\BookingService.Api</code>.</p>
+  </div>
+  <script>
+    fetch("/swagger/v1/swagger.json", { method: "HEAD" }).catch(function () {
+      document.getElementById("offline").style.display = "block";
+    });
+  </script>
+</body>
+</html>
