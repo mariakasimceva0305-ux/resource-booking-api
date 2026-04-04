@@ -1,0 +1,29 @@
+══════════════════════════════════════════════════════════════
+  Что вставить на GitHub (страница репозитория → шестерёнка About)
+══════════════════════════════════════════════════════════════
+
+1) Поле «Description» (краткое описание, до ~350 символов):
+
+ЯЗИМЕП II, задание 1. REST API бронирования переговорок и оборудования: FastAPI + веб-интерфейс (Python), вариант на C#/ASP.NET Core. JWT, SQLite, Swagger/OpenAPI, роли, лимиты, пересечения по времени.
+
+──────────────────────────────────────────────────────────────
+
+2) Темы (Topics) — добавьте теги через запятую на GitHub:
+
+fastapi, python, aspnet-core, csharp, rest-api, jwt, sqlite, swagger, openapi, booking, yazimep, university
+
+──────────────────────────────────────────────────────────────
+
+3) (Необязательно) Лучшее имя репозитория вместо booking-yazime:
+
+GitHub → Settings → General → Repository name → например:
+
+   yazimep2-resource-booking
+
+или
+
+   yazimep-ii-zadanie1-booking
+
+После переименования обновите remote у себя на ПК:
+
+   git remote set-url origin https://github.com/mariakasimceva0305-ux/НОВОЕ-ИМЯ.git

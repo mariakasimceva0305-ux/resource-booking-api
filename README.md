@@ -1,4 +1,18 @@
-# Задание 1 — сервис бронирования ресурсов
+# ЯЗИМЕП II — задание 1: сервис бронирования ресурсов
+
+**Учебный веб-сервис:** бронирование переговорных и оборудования через **REST API** (роли User/Admin, JWT, SQLite, проверка пересечений по времени, лимит броней в день, группы доступа к ресурсам).
+
+**Что внутри репозитория**
+
+| Часть | Технологии | Для чего |
+|--------|------------|----------|
+| Основная демонстрация | **FastAPI** + HTML-интерфейс | Запуск без .NET: `Запуск.cmd` → сайт `http://127.0.0.1:8000/` |
+| Вариант по методичке | **C# / ASP.NET Core** | Слои Controller → Service → Repository, Swagger |
+| Документ с заданием | `язимеп 2.pdf` | Формулировка из методички |
+
+Публичный репозиторий: [github.com/mariakasimceva0305-ux/booking-yazime](https://github.com/mariakasimceva0305-ux/booking-yazime)
+
+---
 
 ## Как запустить (явно)
 
@@ -91,25 +105,23 @@ dotnet test
 - `BookingService.Infrastructure` — EF Core, репозитории, сид админа.
 - `BookingService.Api` — контроллеры, middleware ошибок, DI, Swagger.
 
-## Выгрузка на GitHub
+## Репозиторий на GitHub
 
-Ссылка **https://github.com/settings/profile** — это настройки профиля, **не репозиторий**. Создать репозиторий: **[github.com/new](https://github.com/new)** → имя (например `booking-yazimep`) → Create repository.
+- Адрес: **[github.com/mariakasimceva0305-ux/booking-yazime](https://github.com/mariakasimceva0305-ux/booking-yazime)**
+- Текст для поля **Description** и теги **Topics** — в файле **`ОПИСАНИЕ_ДЛЯ_GITHUB.txt`** (скопируйте на страницу репозитория → **⚙ About**).
+- Имя `booking-yazime` можно сменить на более говорящее (например **`yazimep2-resource-booking`**): **Settings → General → Repository name**.
 
-В репозиторий **не** попадут (см. `.gitignore`): **`fastapi-booking/.venv`**, **`*.db`**, **`bin/obj`**.
+В Git **не** попадают (`.gitignore`): **`fastapi-booking/.venv`**, **`*.db`**, **`bin/obj`**.
 
-После создания пустого репозитория на GitHub скопируйте URL вида `https://github.com/ВАШ_ЛОГИН/ИМЯ_РЕПО.git` и в папке проекта:
+Первая выгрузка или обновление:
 
 ```bash
 cd "c:\Users\Мария\OneDrive\Desktop\11"
-git init
-git add .
-git status
-git commit -m "Задание 1: бронирование ресурсов (C# + FastAPI)"
-git branch -M main
-git remote add origin https://github.com/ВАШ_ЛОГИН/ИМЯ_РЕПО.git
+git remote add origin https://github.com/mariakasimceva0305-ux/booking-yazime.git
+# если remote уже есть: git remote set-url origin https://github.com/mariakasimceva0305-ux/booking-yazime.git
 git push -u origin main
 ```
 
-При первом `git push` GitHub попросит войти: удобнее [Personal Access Token](https://github.com/settings/tokens) вместо пароля, либо **GitHub Desktop**.
+Авторизация: [Personal Access Token](https://github.com/settings/tokens) или **GitHub Desktop**.
 
-Файл **`язимеп 2.pdf`**: если репозиторий станет слишком тяжёлым, не добавляйте PDF или используйте [Git LFS](https://git-lfs.com/).
+Файл **`язимеп 2.pdf`**: при проблемах с размером репозитория уберите из коммита или используйте [Git LFS](https://git-lfs.com/).
