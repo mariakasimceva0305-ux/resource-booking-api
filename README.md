@@ -2,8 +2,6 @@
 
 Репозиторий: **[resource-booking-api](https://github.com/mariakasimceva0305-ux/resource-booking-api)**.
 
-[![CI](https://github.com/mariakasimceva0305-ux/resource-booking-api/actions/workflows/ci.yml/badge.svg)](https://github.com/mariakasimceva0305-ux/resource-booking-api/actions/workflows/ci.yml)
-
 *EN: REST API for booking meeting rooms and equipment — **FastAPI** (primary demo + web UI) and **ASP.NET Core** (layered architecture). JWT, SQLite, OpenAPI, roles, overlap checks, daily limits.*
 
 **Учебный веб-сервис:** бронирование переговорных и оборудования через **REST API** (роли User/Admin, JWT, SQLite, проверка пересечений по времени, лимит броней в день, группы доступа к ресурсам).
