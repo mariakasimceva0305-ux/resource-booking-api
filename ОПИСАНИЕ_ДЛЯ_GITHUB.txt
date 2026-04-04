@@ -1,5 +1,6 @@
 ══════════════════════════════════════════════════════════════
-  Что вставить на GitHub (страница репозитория → шестерёнка About)
+  Репозиторий: resource-booking-api
+  github.com/mariakasimceva0305-ux/resource-booking-api
 ══════════════════════════════════════════════════════════════
 
 1) Поле «Description» (краткое описание, до ~350 символов):
@@ -10,20 +11,16 @@
 
 2) Темы (Topics) — добавьте теги через запятую на GitHub:
 
-fastapi, python, aspnet-core, csharp, rest-api, jwt, sqlite, swagger, openapi, booking, yazimep, university
+fastapi, python, aspnet-core, csharp, rest-api, jwt, sqlite, swagger, openapi, booking, resource-booking-api, yazimep, university
 
 ──────────────────────────────────────────────────────────────
 
-3) (Необязательно) Лучшее имя репозитория вместо booking-yazime:
+3) Имя репозитория на GitHub должно быть:
 
-GitHub → Settings → General → Repository name → например:
+   resource-booking-api
 
-   yazimep2-resource-booking
+GitHub → Settings → General → Repository name → resource-booking-api → Rename.
 
-или
+Если переименовывали со старого имени, обновите remote на ПК:
 
-   yazimep-ii-zadanie1-booking
-
-После переименования обновите remote у себя на ПК:
-
-   git remote set-url origin https://github.com/mariakasimceva0305-ux/НОВОЕ-ИМЯ.git
+   git remote set-url origin https://github.com/mariakasimceva0305-ux/resource-booking-api.git

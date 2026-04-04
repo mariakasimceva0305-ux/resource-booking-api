@@ -10,7 +10,7 @@
 | Вариант по методичке | **C# / ASP.NET Core** | Слои Controller → Service → Repository, Swagger |
 | Документ с заданием | `язимеп 2.pdf` | Формулировка из методички |
 
-Публичный репозиторий: [github.com/mariakasimceva0305-ux/booking-yazime](https://github.com/mariakasimceva0305-ux/booking-yazime)
+Публичный репозиторий (**техническое имя:** `resource-booking-api`): [github.com/mariakasimceva0305-ux/resource-booking-api](https://github.com/mariakasimceva0305-ux/resource-booking-api)
 
 ---
 
@@ -107,18 +107,19 @@ dotnet test
 
 ## Репозиторий на GitHub
 
-- Адрес: **[github.com/mariakasimceva0305-ux/booking-yazime](https://github.com/mariakasimceva0305-ux/booking-yazime)**
+- Техническое имя репозитория: **`resource-booking-api`**
+- Адрес: **[github.com/mariakasimceva0305-ux/resource-booking-api](https://github.com/mariakasimceva0305-ux/resource-booking-api)**
 - Текст для поля **Description** и теги **Topics** — в файле **`ОПИСАНИЕ_ДЛЯ_GITHUB.txt`** (скопируйте на страницу репозитория → **⚙ About**).
-- Имя `booking-yazime` можно сменить на более говорящее (например **`yazimep2-resource-booking`**): **Settings → General → Repository name**.
+- Если репозиторий ещё назывался иначе: на GitHub **Settings → General → Repository name** → введите **`resource-booking-api`** и сохраните.
 
 В Git **не** попадают (`.gitignore`): **`fastapi-booking/.venv`**, **`*.db`**, **`bin/obj`**.
 
-Первая выгрузка или обновление:
+Выгрузка или обновление:
 
 ```bash
 cd "c:\Users\Мария\OneDrive\Desktop\11"
-git remote add origin https://github.com/mariakasimceva0305-ux/booking-yazime.git
-# если remote уже есть: git remote set-url origin https://github.com/mariakasimceva0305-ux/booking-yazime.git
+git remote add origin https://github.com/mariakasimceva0305-ux/resource-booking-api.git
+# если remote уже есть: git remote set-url origin https://github.com/mariakasimceva0305-ux/resource-booking-api.git
 git push -u origin main
 ```
 
