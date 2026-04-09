@@ -10,5 +10,9 @@ class Settings(BaseSettings):
     jwt_expire_minutes: int = 120
     max_bookings_per_day: int = 5
 
+    bootstrap_admin_enabled: bool = False
+    bootstrap_admin_email: str = "admin@local"
+    bootstrap_admin_password: str = ""
+
 
 settings = Settings()

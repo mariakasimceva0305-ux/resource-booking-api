@@ -7,6 +7,7 @@ from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select
 
+from app.config import settings
 from app.database import Base, SessionLocal, engine
 from app.models import User, UserRole
 from app.routers import admin, auth, bookings, resources
@@ -20,12 +21,17 @@ async def lifespan(_app: FastAPI):
     db = SessionLocal()
     try:
         has_admin = db.scalars(select(User).where(User.role == UserRole.admin).limit(1)).first()
-        if not has_admin:
+        if not has_admin and settings.bootstrap_admin_enabled:
+            if not settings.bootstrap_admin_password.strip():
+                raise RuntimeError(
+                    "bootstrap_admin_enabled is true but bootstrap_admin_password is empty. "
+                    "Set BOOTSTRAP_ADMIN_PASSWORD for local development."
+                )
             db.add(
                 User(
                     id=str(uuid.uuid4()),
-                    email="admin@local",
-                    password_hash=hash_password("Admin123!"),
+                    email=settings.bootstrap_admin_email,
+                    password_hash=hash_password(settings.bootstrap_admin_password),
                     role=UserRole.admin,
                     access_group=None,
                 )
